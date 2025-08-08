@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ciallo～(∠・ω< )⌒★</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background-color: #ff9800;
+            color: white;
+        }
+        header h1 {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 0;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .header-right a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .header-right a:hover {
+            text-decoration: underline;
+        }
+        .download-all {
+            background-color: #4caf50;
+            color: white !important;
+            padding: 6px 12px;
+            border-radius: 5px;
+            font-size: 14px;
+            text-decoration: none !important;
+        }
+        .download-all:hover {
+            background-color: #45a049;
+        }
+        #meme-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            padding: 20px;
+            flex: 1;
+        }
+        .meme-item {
+            background-color: white;
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .meme-item:hover {
+            transform: scale(1.05);
+        }
+        .meme-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .meme-name {
+            margin-top: 8px;
+            font-size: 14px;
+            color: #333;
+        }
+        footer {
+            background-color: #e0e0e0;
+            text-align: center;
+            padding: 10px;
+            font-size: 12px;
+            color: #555;
+        }
+        footer a {
+            color: #0077cc;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>刨手手表情包下载</h1>
+    <div class="header-right">
+        <a href="https://paoshoushou.112601.xyz/">首页</a>
+        <a href="https://www.yunsen2025.top/024-paoshoushougif-web">关于</a>
+        <a href="https://github.com/yunsen2025/paoshoushouGIF-web" class="download-all" onclick="downloadAll()">📦 一键下载图包</a>
+    </div>
+</header>
+
+<div id="meme-container"></div>
+
+<footer>
+    声明：本网站仅提供表情包预览与下载，版权归原作者所有。如有侵权，请<a href="#">联系我们</a>。<br>
+    您可以通过<a href="https://github.com/yunsen2025/paoshoushouGIF-web">提交PR</a>丰富本站点内容。
+</footer>
+
+<script>
+const memeData = [
+    { name: "表情0", url: "/gif/0.gif" },
+    { name: "表情1", url: "/gif/1.gif" },
+    { name: "表情2", url: "/gif/2.gif" },
+    { name: "表情3", url: "/gif/3.gif" },
+    { name: "表情4", url: "/gif/4.gif" },
+    { name: "表情5", url: "/gif/5.gif" },
+    { name: "表情6", url: "/gif/6.gif" },
+    { name: "表情7", url: "/gif/7.gif" },
+    { name: "表情8", url: "/gif/8.gif" },
+    { name: "表情9", url: "/gif/9.gif" },
+    { name: "表情10", url: "/gif/10.gif" },
+    { name: "表情11", url: "/gif/11.gif" },
+    { name: "表情12", url: "/gif/12.gif" },
+    { name: "表情13", url: "/gif/13.gif" },
+    { name: "表情14", url: "/gif/14.gif" },
+    { name: "表情15", url: "/gif/15.gif" },
+    { name: "表情16", url: "/gif/16.gif" },
+    { name: "表情17", url: "/gif/17.gif" },
+    { name: "表情18", url: "/gif/18.gif" },
+    { name: "表情19", url: "/gif/19.gif" },
+    { name: "表情20", url: "/gif/20.gif" },
+    { name: "表情21", url: "/gif/21.gif" },
+    { name: "表情22", url: "/gif/22.gif" },
+    { name: "表情23", url: "/gif/23.gif" },
+    { name: "表情24", url: "/gif/24.gif" },
+    { name: "表情25", url: "/gif/25.gif" },
+    { name: "表情26", url: "/gif/26.gif" },
+    { name: "表情27", url: "/gif/27.gif" },
+    { name: "表情28", url: "/gif/28.gif" },
+    { name: "表情29", url: "/gif/29.gif" },
+    { name: "表情30", url: "/gif/30.gif" },
+    { name: "表情31", url: "/gif/31.gif" },
+    { name: "表情32", url: "/gif/32.gif" },
+    { name: "表情33", url: "/gif/33.gif" },
+    { name: "表情34", url: "/gif/34.gif" },
+    { name: "表情35", url: "/gif/35.gif" },
+    { name: "表情36", url: "/gif/36.gif" },
+    { name: "表情37", url: "/gif/37.gif" },
+    { name: "表情38", url: "/gif/38.gif" },
+    { name: "表情39", url: "/gif/39.gif" },
+    { name: "表情40", url: "/gif/40.gif" },
+    { name: "表情41", url: "/gif/41.gif" },
+    { name: "表情42", url: "/gif/42.gif" },
+    { name: "表情43", url: "/gif/43.gif" },
+    { name: "表情44", url: "/gif/44.gif" },
+    { name: "表情45", url: "/gif/45.gif" },
+    { name: "表情46", url: "/gif/46.gif" },
+    { name: "表情47", url: "/gif/47.gif" },
+    { name: "表情48", url: "/gif/48.gif" }
+];
+
+function loadMemes() {
+    const memeContainer = document.getElementById("meme-container");
+    memeContainer.innerHTML = "";
+    memeData.forEach(meme => {
+        const memeItem = document.createElement("div");
+        memeItem.className = "meme-item";
+
+        memeItem.innerHTML = `
+            <img src="${meme.url}" alt="${meme.name}" loading="lazy" 
+                onerror="this.style.display='none'; 
+                         const txt = document.createElement('div');
+                         txt.textContent = '这里的喵喵飞走惹~'; 
+                         txt.style.cssText = 'color:#f56c6c; font-size:16px; text-align:center; margin-top:40px;';
+                         this.parentNode.appendChild(txt);
+                ">
+            <div class="meme-name">${meme.name}</div>
+        `;
+
+        memeContainer.appendChild(memeItem);
+    });
+}
+
+
+function downloadAll() {
+    // 跳转到你的 GitHub 仓库 ZIP 下载地址
+    window.location.href = "https://github.com/yunsen2025/paoshoushouGIF-web";
+}
+
+loadMemes();
+</script>
+
+</body>
+</html>

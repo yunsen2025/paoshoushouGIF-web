@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>表情包大全 - MemeGallery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* 顶栏样式 */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .download-all {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a6f);
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(238, 90, 111, 0.4);
+        }
+
+        .download-all:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(238, 90, 111, 0.6);
+        }
+
+        /* 主要内容区域 */
+        .main-content {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .gallery-title {
+            text-align: center;
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        /* 表情包网格 */
+        .meme-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .meme-item {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .meme-item:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+        }
+
+        .meme-container {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            position: relative;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .meme-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center center;
+            transition: transform 0.3s ease;
+            border-radius: 15px;
+        }
+        
+        .meme-image:hover {
+            transform: scale(1.05);
+        }
+
+        .meme-item:hover .meme-image {
+            /* 悬停效果移到上面的.meme-image:hover中 */
+        }
+
+        .download-btn {
+            width: 100%;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .download-btn:hover {
+            background: linear-gradient(45deg, #45a049, #4CAF50);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        /* 页脚样式 */
+        .footer {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-text {
+            color: #999;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 1200px) {
+            .meme-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .meme-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .header {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .gallery-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .meme-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        /* 加载动画 */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶栏 -->
+    <header class="header">
+        <div class="logo">🎭 表情包大全</div>
+        <a href="#" class="download-all" onclick="downloadAll()">📦 一键下载图包</a>
+    </header>
+
+    <!-- 主要内容 -->
+    <main class="main-content">
+        <h1 class="gallery-title">精品表情包收藏</h1>
+        
+        <div class="meme-grid" id="memeGrid">
+            <!-- 表情包将通过JavaScript动态加载 -->
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#about">关于我们</a>
+                <a href="#contact">联系方式</a>
+                <a href="#privacy">隐私政策</a>
+                <a href="#terms">使用条款</a>
+                <a href="#help">帮助中心</a>
+            </div>
+            <div class="footer-text">
+                <p>© 2025 表情包大全. 版权所有.</p>
+                <p>为您提供最新最热的表情包资源，让聊天更有趣！</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 示例表情包数据
+        const memeData = [
+            {
+                id: 1,
+                url: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRkZEQjAwIi8+CjxjaXJjbGUgY3g9IjYwIiBjeT0iNzAiIHI9IjEwIiBmaWxsPSIjMDAwIi8+CjxjaXJjbGUgY3g9IjE0MCIgY3k9IjcwIiByPSIxMCIgZmlsbD0iIzAwMCIvPgo8cGF0aCBkPSJNNTAgMTUwIFE1MCAxMjAgMTAwIDEyMCBRMTUwIDEyMCAxNTAgMTUwIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4=',
+                name: '开心表情'
+            },
+            {
+                id: 2,
+                url: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRkY2QjZCIi8+CjxjaXJjbGUgY3g9IjYwIiBjeT0iNzAiIHI9IjEwIiBmaWxsPSIjMDAwIi8+CjxjaXJjbGUgY3g9IjE0MCIgY3k9IjcwIiByPSIxMCIgZmlsbD0iIzAwMCIvPgo8cGF0aCBkPSJNNTAgMTYwIFE1MCAyMDAgMTAwIDIwMCBRMTUwIDIwMCAxNTAgMTYwIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4=',
+                name: '生气表情'
+            },
+            {
+                id: 3,
+                url: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjNDdBOUZGIi8+CjxjaXJjbGUgY3g9IjYwIiBjeT0iNzAiIHI9IjEwIiBmaWxsPSIjMDAwIi8+CjxjaXJjbGUgY3g9IjE0MCIgY3k9IjcwIiByPSIxMCIgZmlsbD0iIzAwMCIvPgo8ZWxsaXBzZSBjeD0iMTAwIiBjeT0iMTQwIiByeD0iMjAiIHJ5PSIxMCIgZmlsbD0iIzAwMCIvPgo8L3N2Zz4=',
+                name: '惊讶表情'
+            },
+            {
+                id: 4,
+                url: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjOUU5RUFFIi8+CjxwYXRoIGQ9Ik01MCA3MCBRNTAAM TYwIDYwIDYwIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0ibm9uZSIvPgo8cGF0aCBkPSJNMTQwIDcwIFExNDAgNDAgMTYwIDQwIFFBODBROCDAIDEwMCIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjMiIGZpbGw9Im5vbmUiLz4KPGxpbmUgeDE9IjcwIiB5MT0iMTQwIiB4Mj0iMTMwIiB5Mj0iMTQwIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMyIvPgo8L3N2Zz4=',
+                name: '无语表情'
+            },
+            {
+                id: 5,
+                url: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRkZBNTAwIi8+CjxwYXRoIGQ9Ik0zMCA3MCBRM9MQIDUwIDUwIDUwIFF40CA1NVj MCA3MCIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjMiIGZpbGw9Im5vbmUiLz4KPHBhdGggZD0iTTEzNCA3NCBRMTg5MRQNTVNRTUR1aER0yZUAEGYAF40FTFErSVJFAFQ40NpIG94JQIDMiznkdyb2tlLXdpZHRopjMzMi3IGZpbGw9Im5vbmUiLz4KPHBhdGggZD0iTTYwIDEzMCA4TDEwMA50MzBOTEAwIDEzMCIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjMiIGZpbGw9Im5vbmUiLz4KPC9zdmc+',
+                name: '偷笑表情'
+            },
+            {
+                id: 6,
+                url: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjODc1QUZGIi8+CjxjaXJjbGUgY3g9IjYwIiBjeT0iNzAiIHI9IjE1IiBmaWxsPSIjRkYxNDkzIi8+CjxjaXJjbGUgY3g9IjE0MCIgY3k9IjcwIiByPSIxNSIgZmlsbD0iI0ZGMTQITAi8+CjxwYXRoIGQ9Ik03MiAxMzAgcTE0IDI0IDI4IDI0IHEtMzAgNE1kAU05MxgApTEzMCIgc3Ryb2tlPSIjRkYxNDkzIiBzdHJva2Utd2lkdGg9IjMiIGZpbGw9Im5vbmUiLz4KPC9zdmc+',
+                name: '爱心表情'
+            },
+            {
+                id: 7,
+                url: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjMDBDQjUxIi8+CjxjaXJjbGUgY3g9IjYwIiBjeT0iNzAiIHI9IjEwIiBmaWxsPSIjMDAwIi8+CjxjaXJjbGUgY3g9IjE0MCIgY3k9IjcwIiByPSIxMCIgZmlsbD0iIzAwMCIvPgo8cGF0aCBkPSJNNjAgMTMwIFE3MCA3Zg1QMJAMGUWCEyDEzDdcZE5AOLw==",
+                name: '得意表情'
+            },
+            {
+                id: 8,
+                url: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjREQ0QjM5Ii8+CjxjaXJjbGUgY3g9IjYwIiBjeT0iNzAiIHI9IjEwIiBmaWxsPSIjMDAwIi8+CjxjaXJjbGUgY3g9IjE0MCIgY3k9IjcwIiByPSIxMCIgZmlsbD0iIzAwMCIvPgo8ZWxsaXBzZSBjeD0iMTAwIiBjeT0iMTMwIiByeD0iNDAiIHJ5PSIyMCIgZmlsbD0iIzAwMCIvPgo8L3N2Zz4=',
+                name: '震惊表情'
+            }
+        ];
+
+        // 下载单个表情包
+        function downloadMeme(memeId, memeName) {
+            const meme = memeData.find(m => m.id === memeId);
+            if (!meme) return;
+
+            // 创建一个临时链接用于下载
+            const link = document.createElement('a');
+            link.href = meme.url;
+            link.download = `${memeId}.gif`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // 显示下载提示
+            showNotification(`正在下载 "${memeId}.gif"`);
+        }
+
+        // 批量下载 - 打开下载链接
+        function downloadAll() {
+            // 你可以将下面的URL替换为实际的打包下载链接
+            const downloadUrl = 'https://example.com/download-all-memes.zip';
+            
+            // 在新窗口中打开下载链接
+            window.open(downloadUrl, '_blank');
+            
+            showNotification('正在打开批量下载链接...');
+        }
+
+        // 显示通知
+        function showNotification(message) {
+            // 创建通知元素
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(45deg, #4CAF50, #45a049);
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 10px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+            `;
+            
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            // 3秒后自动移除
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // 渲染表情包网格
+        function renderMemes() {
+            const grid = document.getElementById('memeGrid');
+            
+            memeData.forEach(meme => {
+                const memeItem = document.createElement('div');
+                memeItem.className = 'meme-item';
+                
+                memeItem.innerHTML = `
+                    <div class="meme-container">
+                        <img src="${meme.url}" alt="${meme.name}" class="meme-image" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNmMGYwZjAiLz48dGV4dCB4PSI1MCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiM5OTkiPkdJRiDliqDovb3kuK08L3RleHQ+PC9zdmc+'">
+                    </div>
+                    <button class="download-btn" onclick="downloadMeme(${meme.id}, '${meme.name}')">
+                        📥 下载 ${meme.id}.gif
+                    </button>
+                `;
+                
+                grid.appendChild(memeItem);
+            });
+        }
+
+        // 添加动画样式
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // 页面加载完成后渲染表情包
+        document.addEventListener('DOMContentLoaded', renderMemes);
+    </script>
+</body>
+</html>
