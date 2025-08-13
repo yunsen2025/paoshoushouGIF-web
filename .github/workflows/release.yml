@@ -1,0 +1,111 @@
+name: 自动打包表情包
+
+on:
+  push:
+    branches: [ main ]
+    paths: 
+      - 'gif/**'  # 只有gif文件夹变化时才触发
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 检出代码
+      uses: actions/checkout@v4
+      
+    - name: 获取当前日期
+      id: date
+      run: echo "date=$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_OUTPUT
+      
+    - name: 统计表情包数量
+      id: count
+      run: |
+        count=$(find gif -name "*.gif" | wc -l)
+        echo "count=$count" >> $GITHUB_OUTPUT
+        echo "发现 $count 个表情包文件"
+        
+    - name: 创建表情包压缩包
+      run: |
+        # 创建临时目录
+        mkdir -p release-temp/paoshoushou-gif-pack
+        
+        # 复制gif文件
+        cp -r gif/* release-temp/paoshoushou-gif-pack/
+        
+        # 创建说明文件
+        cat > release-temp/paoshoushou-gif-pack/README.txt << EOF
+        刨手手表情包合集
+        ==================
+        
+        📦 包含表情包数量: ${{ steps.count.outputs.count }} 个
+        📅 打包时间: $(date +'%Y年%m月%d日 %H:%M:%S')
+        🌐 项目地址: https://github.com/yunsen2025/paoshoushouGIF-web
+        🎯 在线预览: https://paoshoushou.112601.xyz/
+        
+        使用说明:
+        - 所有文件均为GIF格式
+        - 可直接用于QQ、微信等聊天软件
+        - 支持拖拽导入到各类表情包管理工具
+        
+        版权声明:
+        本表情包仅供个人学习交流使用，版权归原作者所有。
+        如有侵权，请联系删除。
+        EOF
+        
+        # 打包
+        cd release-temp
+        zip -r ../paoshoushou-gif-pack-${{ steps.date.outputs.date }}.zip paoshoushou-gif-pack/
+        cd ..
+        
+        # 显示文件信息
+        ls -lh paoshoushou-gif-pack-*.zip
+        
+    - name: 创建Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: gif-pack-${{ steps.date.outputs.date }}
+        release_name: 🎭 表情包合集 v${{ steps.date.outputs.date }}
+        body: |
+          ## 📦 刨手手表情包合集
+          
+          ### 📊 本次更新
+          - 🎭 包含表情包: **${{ steps.count.outputs.count }}** 个
+          - 📅 打包时间: ${{ steps.date.outputs.date }}
+          - 💾 文件大小: 约 $(du -h paoshoushou-gif-pack-*.zip | cut -f1)
+          
+          ### 📥 下载说明
+          点击下方 **paoshoushou-gif-pack-xxx.zip** 文件即可下载完整表情包合集。
+          
+          ### 🌐 在线预览
+          访问 [https://paoshoushou.112601.xyz/](https://paoshoushou.112601.xyz/) 在线预览和单独下载表情包。
+          
+          ### 🔄 更新内容
+          本版本包含了最新的表情包文件，建议下载最新版本以获得完整体验。
+          
+        draft: false
+        prerelease: false
+        
+    - name: 上传表情包压缩包
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./paoshoushou-gif-pack-${{ steps.date.outputs.date }}.zip
+        asset_name: paoshoushou-gif-pack-${{ steps.date.outputs.date }}.zip
+        asset_content_type: application/zip
+        
+    - name: 创建latest标签 (便于固定下载链接)
+      run: |
+        # 删除原有的latest标签
+        git tag -d latest || true
+        git push origin :refs/tags/latest || true
+        
+        # 创建新的latest标签
+        git tag latest
+        git push origin latest

@@ -6,92 +6,339 @@
     <title>Ciallo～(∠・ω< )⌒★</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 2px, transparent 2px),
+                radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: -1;
         }
         header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 15px 20px;
-            background-color: #ff9800;
+            padding: 20px 30px;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
             color: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
         }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            z-index: -1;
+        }
+        
         header h1 {
-            font-size: 22px;
-            font-weight: bold;
+            font-size: 28px;
+            font-weight: 700;
             margin: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         .header-right {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 20px;
         }
         .header-right a {
             color: white;
             text-decoration: none;
-            font-size: 14px;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .header-right a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        .header-right a:hover::before {
+            left: 100%;
         }
         .header-right a:hover {
-            text-decoration: underline;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
         }
         .download-all {
-            background-color: #4caf50;
+            background: linear-gradient(135deg, #4caf50, #45a049);
             color: white !important;
-            padding: 6px 12px;
-            border-radius: 5px;
-            font-size: 14px;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
             text-decoration: none !important;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .download-all::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+        .download-all:hover::before {
+            width: 300px;
+            height: 300px;
         }
         .download-all:hover {
-            background-color: #45a049;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(76, 175, 80, 0.6);
         }
         #meme-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
-            padding: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 25px;
+            padding: 30px;
             flex: 1;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
         }
         .meme-item {
-            background-color: white;
-            border-radius: 8px;
-            padding: 10px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             text-align: center;
-            transition: transform 0.2s;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
+        
+        .meme-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .meme-item:hover::before {
+            opacity: 1;
+        }
+        
         .meme-item:hover {
-            transform: scale(1.05);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
         }
         .meme-item img {
             max-width: 100%;
             height: auto;
-            border-radius: 5px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            position: relative;
         }
+        
+        .meme-item img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .download-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            font-size: 16px;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        .meme-item:hover .download-icon {
+            opacity: 1;
+        }
+        
         .meme-name {
-            margin-top: 8px;
-            font-size: 14px;
-            color: #333;
+            margin-top: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         footer {
-            background-color: #e0e0e0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(10px);
             text-align: center;
-            padding: 10px;
-            font-size: 12px;
-            color: #555;
+            padding: 25px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.9);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            margin-top: auto;
         }
         footer a {
-            color: #0077cc;
+            color: #4ecdc4;
             text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        footer a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            transition: width 0.3s ease;
+        }
+        footer a:hover::after {
+            width: 100%;
         }
         footer a:hover {
-            text-decoration: underline;
+            color: #44a08d;
+            transform: translateY(-1px);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 480px) {
+            #meme-container {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                gap: 15px;
+                padding: 15px;
+            }
+        }
+        
+        @media (min-width: 481px) and (max-width: 768px) {
+            #meme-container {
+                grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+                gap: 20px;
+                padding: 20px;
+            }
+        }
+        
+        @media (min-width: 769px) and (max-width: 1024px) {
+            #meme-container {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                gap: 22px;
+                padding: 25px;
+            }
+        }
+        
+        @media (min-width: 1025px) and (max-width: 1440px) {
+            #meme-container {
+                grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+                gap: 25px;
+                padding: 30px;
+            }
+        }
+        
+        @media (min-width: 1441px) {
+            #meme-container {
+                grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+                gap: 30px;
+                padding: 35px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            header h1 {
+                font-size: 24px;
+            }
+            
+            .header-right {
+                gap: 15px;
+            }
+            
+            .header-right a {
+                font-size: 14px;
+                padding: 6px 12px;
+            }
+            
+            .download-all {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+            
+            .meme-item {
+                padding: 15px;
+            }
+        }
+        
+        /* 加载动画 */
+        .meme-item {
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
@@ -169,18 +416,21 @@ const memeData = [
 function loadMemes() {
     const memeContainer = document.getElementById("meme-container");
     memeContainer.innerHTML = "";
-    memeData.forEach(meme => {
+    memeData.forEach((meme, index) => {
         const memeItem = document.createElement("div");
         memeItem.className = "meme-item";
+        memeItem.style.animationDelay = `${index * 0.05}s`;
 
         memeItem.innerHTML = `
             <img src="${meme.url}" alt="${meme.name}" loading="lazy" 
+                onclick="downloadImage('${meme.url}', '${meme.name}')"
                 onerror="this.style.display='none'; 
                          const txt = document.createElement('div');
                          txt.textContent = '这里的喵喵飞走惹~'; 
-                         txt.style.cssText = 'color:#f56c6c; font-size:16px; text-align:center; margin-top:40px;';
+                         txt.style.cssText = 'color:#ff6b6b; font-size:18px; text-align:center; margin-top:40px; font-weight:600;';
                          this.parentNode.appendChild(txt);
                 ">
+            <div class="download-icon">⬇️</div>
             <div class="meme-name">${meme.name}</div>
         `;
 
@@ -188,10 +438,94 @@ function loadMemes() {
     });
 }
 
+function downloadImage(url, name) {
+    // 创建一个临时的 a 标签用于下载
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${name}.gif`; // 设置下载文件名
+    
+    // 添加到页面并触发点击
+    document.body.appendChild(link);
+    link.click();
+    
+    // 下载完成后移除临时元素
+    document.body.removeChild(link);
+    
+    // 可选：显示下载提示
+    showDownloadToast(name);
+}
+
+function showDownloadToast(name) {
+    // 创建下载提示
+    const toast = document.createElement('div');
+    toast.textContent = `正在下载：${name}`;
+    toast.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #4caf50, #45a049);
+        color: white;
+        padding: 12px 20px;
+        border-radius: 25px;
+        box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+        z-index: 1000;
+        font-weight: 600;
+        animation: slideInRight 0.3s ease-out;
+    `;
+    
+    // 添加动画样式
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+    `;
+    
+    if (!document.querySelector('#toast-styles')) {
+        style.id = 'toast-styles';
+        document.head.appendChild(style);
+    }
+    
+    document.body.appendChild(toast);
+    
+    // 3秒后自动消失
+    setTimeout(() => {
+        toast.style.animation = 'slideOutRight 0.3s ease-out';
+        setTimeout(() => {
+            if (document.body.contains(toast)) {
+                document.body.removeChild(toast);
+            }
+        }, 300);
+    }, 3000);
+}
+
 
 function downloadAll() {
-    // 跳转到你的 GitHub 仓库 ZIP 下载地址
-    window.location.href = "https://github.com/yunsen2025/paoshoushouGIF-web";
+    // 创建下载提示
+    showDownloadToast("正在跳转到下载页面...");
+    
+    // 延迟跳转，让用户看到提示
+    setTimeout(() => {
+        // 跳转到最新Release下载页面
+        window.location.href = "https://github.com/yunsen2025/paoshoushouGIF-web/releases/latest";
+    }, 500);
 }
 
 loadMemes();
