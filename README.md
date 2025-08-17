@@ -1,6 +1,6 @@
 # 刨手手表情包下载站  
 一个简单、美观、现代化的表情包预览和下载网站  [体验界面](https://paoshoushou.112601.xyz/)
-![示例](https://imgbed.112601.xyz/file/1752422083916.png)  
+![示例](https://imgbed.112601.xyz/file/paoshoushouGIF-web/1755428596377.png)  
 [项目主页文章（博客）](#) | [体验界面](https://paoshoushou.112601.xyz/) | [GitHub仓库](https://github.com/yunsen2025/paoshoushouGIF-web)
 
 > [!NOTE]
