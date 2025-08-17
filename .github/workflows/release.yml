@@ -27,6 +27,7 @@ jobs:
         echo "发现 $count 个表情包文件"
         
     - name: 创建表情包压缩包
+      id: package
       run: |
         # 创建临时目录
         mkdir -p release-temp/paoshoushou-gif-pack
@@ -59,6 +60,10 @@ jobs:
         zip -r ../paoshoushou-gif-pack-${{ steps.date.outputs.date }}.zip paoshoushou-gif-pack/
         cd ..
         
+        # 获取文件大小并输出到GitHub输出
+        file_size=$(du -h paoshoushou-gif-pack-*.zip | cut -f1)
+        echo "size=$file_size" >> $GITHUB_OUTPUT
+        
         # 显示文件信息
         ls -lh paoshoushou-gif-pack-*.zip
         
@@ -76,7 +81,7 @@ jobs:
           ### 📊 本次更新
           - 🎭 包含表情包: **${{ steps.count.outputs.count }}** 个
           - 📅 打包时间: ${{ steps.date.outputs.date }}
-          - 💾 文件大小: 约 $(du -h paoshoushou-gif-pack-*.zip | cut -f1)
+          - 💾 文件大小: 约 **${{ steps.package.outputs.size }}**
           
           ### 📥 下载说明
           点击下方 **paoshoushou-gif-pack-xxx.zip** 文件即可下载完整表情包合集。
